@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head><title>Login</title></head>
+<head><title>Admin Login</title></head>
 <body>
-    <h2>Login</h2>
-    <form method="POST" action="/login">
+    <h2>Admin Login</h2>
+    <form method="POST" action="/admin/login">
         @csrf
         <input type="email" name="email" placeholder="Email" required><br>
         <input type="password" name="password" placeholder="Password" required><br>
         <button type="submit">Login</button>
     </form>
-    <a href="/register">Register</a>
 </body>
 </html>

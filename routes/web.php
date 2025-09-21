@@ -3,40 +3,37 @@
 use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\AdminPageController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Web\AuthController as WebAuth;
+use App\Http\Controllers\Web\SubmissionController as WebSubmission;
+use App\Http\Controllers\Web\Admin\AuthController as AdminAuth;
+use App\Http\Controllers\Web\Admin\SubmissionController as AdminSubmission;
 
-# Public pages (guest)
-Route::middleware('guest')->group(function () {
-    Route::get('/', function(){ return redirect()->route('login.form'); });
-    Route::get('/register', [PublicPageController::class, 'showRegisterForm'])->name('register.form');
-    Route::post('/register', [PublicPageController::class, 'register'])->name('register.submit');
-    Route::get('/login', [PublicPageController::class, 'showLoginForm'])->name('login.form');
-    Route::post('/login', [PublicPageController::class, 'login'])->name('login.submit');
+Route::get('/', function () {
+    return redirect('/login');
 });
 
-# Public pages (auth)
+Route::get('/login', [WebAuth::class, 'showLoginForm'])->name('login');
+Route::post('/login', [WebAuth::class, 'login']);
+Route::post('/logout', [WebAuth::class, 'logout'])->name('logout');
+
+Route::get('/register', [WebAuth::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [WebAuth::class, 'register']);
+
 Route::middleware('auth')->group(function () {
-    Route::post('/logout', [PublicPageController::class, 'logout'])->name('logout');
-    Route::get('/profile', [PublicPageController::class, 'profile'])->name('profile');
-
-    Route::get('/submissions', [PublicPageController::class, 'index'])->name('submissions.index');
-    Route::get('/submissions/create', [PublicPageController::class, 'create'])->name('submissions.create');
-    Route::post('/submissions', [PublicPageController::class, 'store'])->name('submissions.store');
-    Route::get('/submissions/{id}', [PublicPageController::class, 'show'])->name('submissions.show');
+    Route::get('/dashboard', [WebSubmission::class, 'index'])->name('dashboard');
+    Route::get('/submissions/create', [WebSubmission::class, 'create'])->name('submissions.create');
+    Route::post('/submissions', [WebSubmission::class, 'store'])->name('submissions.store');
 });
 
-# Admin pages
+// Admin routes
 Route::prefix('admin')->group(function () {
-    Route::middleware('guest')->group(function(){
-        Route::get('/login', [AdminPageController::class, 'showLoginForm'])->name('admin.login.form');
-        Route::post('/login', [AdminPageController::class, 'login'])->name('admin.login.submit');
-    });
+    Route::get('/login', [AdminAuth::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/login', [AdminAuth::class, 'login']);
+    Route::post('/logout', [AdminAuth::class, 'logout'])->name('admin.logout');
 
-    Route::middleware(['auth','admin'])->group(function(){
-        Route::post('/logout', [AdminPageController::class, 'logout'])->name('admin.logout');
-        Route::get('/submissions', [AdminPageController::class, 'index'])->name('admin.submissions.index');
-        Route::get('/submissions/{id}', [AdminPageController::class, 'show'])->name('admin.submissions.show');
-        Route::patch('/submissions/{id}/status', [AdminPageController::class, 'updateStatus'])->name('admin.submissions.updateStatus');
+    Route::middleware(['auth', 'is_admin'])->group(function () {
+        Route::get('/dashboard', [AdminSubmission::class, 'index'])->name('admin.dashboard');
+        Route::get('/submissions/{id}', [AdminSubmission::class, 'show'])->name('admin.submissions.show');
+        Route::patch('/submissions/{id}/status', [AdminSubmission::class, 'updateStatus'])->name('admin.submissions.updateStatus');
     });
 });
-
-

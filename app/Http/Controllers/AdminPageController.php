@@ -43,7 +43,7 @@ class AdminPageController extends Controller
         if ($request->filled('status')) $q->where('status',$request->status);
         if ($request->filled('type')) $q->where('type',$request->type);
 
-        $submissions = $q->paginate(20)->withQueryString();
+        // $submissions = $q->paginate(20)->withQueryString();
         return view('admin.submissions.index', compact('submissions'));
     }
 

@@ -33,6 +33,8 @@ Route::prefix('admin')->group(function () {
 
     Route::middleware(['auth', 'is_admin'])->group(function () {
         Route::get('/dashboard', [AdminSubmission::class, 'index'])->name('admin.dashboard');
+        Route::get('/submissions', [AdminSubmission::class, 'index'])->name('admin.submissions.index');
+
         Route::get('/submissions/{id}', [AdminSubmission::class, 'show'])->name('admin.submissions.show');
         Route::patch('/submissions/{id}/status', [AdminSubmission::class, 'updateStatus'])->name('admin.submissions.updateStatus');
     });

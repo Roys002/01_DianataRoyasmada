@@ -25,7 +25,7 @@ class SubmissionController extends Controller
         $submission = Submission::findOrFail($id);
 
         $data = $request->validate([
-            'status' => 'required|in:pending,approved,rejected',
+            'status' => 'required|in:pending,verified,rejected,processing,completed',
         ]);
 
         $submission->status = $data['status'];

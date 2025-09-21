@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('attachment')->nullable(); // store path
-            $table->enum('status', ['pending', 'verified', 'in_progress', 'completed', 'rejected'])->default('pending');
+            $table->enum('status', ['pending', 'verified', 'rejected', 'processing', 'completed'])->default('pending');
             $table->text('admin_note')->nullable();
             $table->timestamps();
         });

@@ -49,7 +49,7 @@ Route::prefix('admin')->group(function () {
     });
 });
 
-Route::prefix('admin')->group(function () {
-    Route::post('/login', [AdminAuth::class, 'login']);
-    Route::post('/logout', [AdminAuth::class, 'logout'])->middleware(['auth:sanctum', 'admin']);
-});
+// Route::prefix('admin')->group(function () {
+//     Route::post('/login', [AdminAuth::class, 'login']);
+//     Route::post('/logout', [AdminAuth::class, 'logout'])->middleware(['auth:sanctum', 'admin']);
+// });

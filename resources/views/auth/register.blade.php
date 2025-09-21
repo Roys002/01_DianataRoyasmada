@@ -3,7 +3,7 @@
 <head><title>Register</title></head>
 <body>
     <h2>Register</h2>
-    <form method="POST" action="/register">
+    <form method="POST" action="{{ route('register') }}">
         @csrf
         <input type="text" name="name" placeholder="Name" required><br>
         <input type="email" name="email" placeholder="Email" required><br>

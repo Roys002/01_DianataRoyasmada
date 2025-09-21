@@ -45,7 +45,7 @@
                         @csrf
                         @method('PATCH')
                         <input type="hidden" name="status" value="verified">
-                        <button class="btn btn-success btn-sm">Approve</button>
+                        <button class="btn btn-success btn-sm">Verified</button>
                     </form>
 
                     {{-- Processing --}}
